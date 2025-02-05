@@ -31,20 +31,26 @@ const theme = createTheme({
 function App() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
+  const [username, setUsername] = useState("")
   const [filteredData, setFilteredData] = useState(mockData)
 
   const handleDateFilter = () => {
-    if (!startDate && !endDate) {
-      setFilteredData(mockData)
-      return
+    let filtered = mockData
+
+    if (startDate || endDate) {
+      filtered = filtered.filter((item) => {
+        const itemDate = new Date(item.created_at)
+        const isAfterStart = !startDate || itemDate >= startDate
+        const isBeforeEnd = !endDate || itemDate <= endDate
+        return isAfterStart && isBeforeEnd
+      })
     }
 
-    const filtered = mockData.filter((item) => {
-      const itemDate = new Date(item.created_at)
-      const isAfterStart = !startDate || itemDate >= startDate
-      const isBeforeEnd = !endDate || itemDate <= endDate
-      return isAfterStart && isBeforeEnd
-    })
+    if (username) {
+      filtered = filtered.filter((item) =>
+        item.user_name.toLowerCase().includes(username.toLowerCase())
+      )
+    }
 
     setFilteredData(filtered)
   }
@@ -77,6 +83,11 @@ function App() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
+            <TextField
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <Button variant="contained" onClick={handleDateFilter} startIcon={<RefreshCw size={18} />}>
               Apply Filter
             </Button>
