@@ -10,7 +10,8 @@
     "@mui/x-date-pickers": "^7.25.0",
     "ajv": "^8.17.1",
     "cra-template": "1.2.0",
-    "date-fns": "^3.6.0",
+    "cross-env": "^7.0.3",
+   "date-fns": "^2.29.3",
     "lucide-react": "^0.474.0",
     "react": "^19.0.0",
     "react-datepicker": "^8.0.0",
@@ -18,9 +19,9 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^4.2.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+ "scripts": {
+    "start": "cross-env GENERATE_SOURCEMAP=false react-scripts start",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

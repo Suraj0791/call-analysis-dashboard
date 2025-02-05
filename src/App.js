@@ -1,6 +1,7 @@
 import { useState } from "react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import {
   Table,
   TableBody,
@@ -12,6 +13,7 @@ import {
   Button,
   Box,
   Typography,
+  TextField,
 } from "@mui/material"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { Play, Upload, RefreshCw } from "lucide-react"
@@ -61,29 +63,29 @@ function App() {
           </Typography>
 
           <Box sx={{ mb: 3, display: "flex", gap: 2, alignItems: "center" }}>
-            <div className="date-picker-container">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
-                selected={startDate}
+                label="Start Date"
+                value={startDate}
                 onChange={(date) => setStartDate(date)}
-                placeholderText="Start Date"
-                className="date-picker"
+                renderInput={(params) => <TextField {...params} />}
               />
-            </div>
-            <div className="date-picker-container">
               <DatePicker
-                selected={endDate}
+                label="End Date"
+                value={endDate}
                 onChange={(date) => setEndDate(date)}
-                placeholderText="End Date"
-                className="date-picker"
+                renderInput={(params) => <TextField {...params} />}
               />
-            </div>
+            </LocalizationProvider>
             <Button variant="contained" onClick={handleDateFilter} startIcon={<RefreshCw size={18} />}>
               Apply Filter
             </Button>
             <Button variant="contained" color="primary" startIcon={<Upload size={18} />}>
               Upload
             </Button>
-            <Button variant="outlined">Show All</Button>
+            <Button variant="outlined" onClick={() => setFilteredData(mockData)}>
+              Show All
+            </Button>
           </Box>
 
           <TableContainer component={Paper}>
@@ -125,4 +127,3 @@ function App() {
 }
 
 export default App
-
